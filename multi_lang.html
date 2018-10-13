@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Multi Language Support</title>
+		<meta name="Description" content="Basic Pramukh Type Pad to easily type in Assamese, Bengali, Bodo, Dogri, Gujarati, Hindi, Kannada, Konkani, Maithili, Malayalam, Manipuri, Marathi, Meitei (Manipuri), Nepali, Odia, Punjabi, Sanskrit, Santali (Ol Chiki), Sindhi, Sora, Tamil and Telugu" />
+		<meta name="keywords" content="Indian, Language, Assamese, Bengali, Bodo, Dogri, Gujarati, Hindi, Kannada, Konkani, Maithili, Malayalam, Meitei, Manipuri, Marathi, Nepali, Odia, Punjabi, Sanskrit, Santali, Ol Chiki, Sindhi, Sora, Tamil, Telugu, Type pad, Unicode, transliteration " />
+		<meta name="copyright" content="Copyright © 2005-2018 Vishal Monpara" />
+	</head>
+	<body>
+	<div class="container">
+		<div class="row row-top10">
+			<div class="col-xs-12">
+				<!--[if lt IE 9]>
+					<div class="alert alert-warning">Internet Explorer 6, 7, 8 is not supported by Bootstrap and jQuery. Please use latest Internet Explorer or other browsers like Chrome or Firefox.</div>
+				<![endif]-->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<select id="drpLanguage" name="drpLanguage" title="Choose Language">
+							<option value="pramukhindic:assamese">Assamese</option>
+							<option value="pramukhindic:bengali">Bengali</option>
+							<option value="pramukhindic:bodo">Bodo</option>
+							<option value="pramukhindic:dogri">Dogri</option>
+							<option value="pramukhindic:gujarati">Gujarati</option>
+							<option value="pramukhindic:hindi">Hindi</option>
+							<option value="pramukhindic:kannada">Kannada</option>
+							<option value="pramukhindic:kashmiri">Kashmiri</option>
+							<option value="pramukhindic:konkani">Konkani</option>
+							<option value="pramukhindic:maithili">Maithili</option>
+							<option value="pramukhindic:malayalam">Malayalam</option>
+							<option value="pramukhindic:manipuri">Manipuri</option>
+							<option value="pramukhindic:marathi">Marathi</option>
+							<option value="pramukhindic:marathimodi">Marathi (Modi)</option>
+							<option value="pramukhindic:meitei">Meitei (Manipuri)</option>
+							<option value="pramukhindic:nepali">Nepali</option>
+							<option value="pramukhindic:odia">Odia</option>
+							<option value="pramukhindic:punjabi">Punjabi</option>
+							<option value="pramukhindic:sanskrit">Sanskrit</option>
+							<option value="pramukhindic:santali">Santali</option>
+							<option value="pramukhindic:sindhi">Sindhi</option>
+							<option value="pramukhindic:sora">Sora</option>
+							<option value="pramukhindic:tamil">Tamil</option>
+							<option value="pramukhindic:telugu">Telugu</option>
+							<option value="pramukhime:english" selected="selected">English (F9)</option>
+						</select>
+					</div>
+					<div class="panel-body">
+					<span class="pi-icon pramukhime english-help"></span>
+						<textarea id="typingarea" name="typingarea" rows="5" cols="64" class="bigger" spellcheck="false"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/pramukhime.js"></script>
+	<script type="text/javascript" src="js/pramukhindic.js"></script>
+	<script type="text/javascript" src="js/pramukhime-common.js"></script>
+	<script type="text/javascript" src="js/pramukhindic-i18n.js"></script>
+		
+	<script type="text/javascript">
+		// When document is ready, add events to buttons
+		$(document).ready(function () {
+			// focus on textarea
+			$("#typingarea").focus();
+			
+			$("#drpLanguage").on('change', function() {
+                $('#typingarea').val('');
+				// This code is required only for Standard version
+				// PRO version can handle this code through fired events
+				var newLanguage = this.value;
+				if (!newLanguage || newLanguage === "")
+					newLanguage = 'pramukhime:english';
+				// set new script
+				var lang = newLanguage.split(':');
+				pramukhIME.setLanguage(lang[1], lang[0]);
+				var data = pramukhIME.getLanguage();
+				var temp = pramukhIME.getLastLanguage();
+				data.lastKb = temp.kb;
+				data.lastLanguage = temp.language;
+				languageChangeCallback(data);
+			});
+			
+			// Setup pramukhIME
+			// Add the keyboard plugin
+			pramukhIME.addKeyboard(PramukhIndic);
+
+			// Enable for the whole page
+			pramukhIME.enable();
+			// Register call back (PRO Version only)
+			//pramukhIME.on('languagechange', languageChangeCallback);
+			//pramukhIME.on('settingschange', saveSettings);
+			setupInitialSettings();
+			
+		});
+	</script>
+	</body>
+</html>
